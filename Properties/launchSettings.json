@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Test1": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "CONEXAO_MONGODB": "mongodb://127.0.0.1:27017",
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
