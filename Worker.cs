@@ -12,12 +12,12 @@ namespace Test1
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private HttpClient _httpClient;
+        private IHttpClientFactory _httpClientFactory;
 
         public Worker(ILogger<Worker> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
-            _httpClient = httpClientFactory.CreateClient(nameof(Worker));
+            _httpClientFactory = httpClientFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -26,7 +26,9 @@ namespace Test1
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-                var response = await _httpClient.GetAsync("api/v3/ticker/price");
+                var httpClient = _httpClientFactory.CreateClient(nameof(Worker));
+
+                var response = await httpClient.GetAsync("api/v3/ticker/price");
 
                 if (response.IsSuccessStatusCode)
                 {
